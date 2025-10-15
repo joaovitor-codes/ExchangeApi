@@ -46,15 +46,9 @@ No projeto, encontre o arquivo src/main/resources/application.properties.
 Configure as seguintes propriedades com a sua chave e a URL base:
 
 Properties
-
-# ===============================================
-# CONFIGURAÇÃO DA AWESOME API
-# ===============================================
-# URL base da API de cotações
 awesomeapi.baseurl=https://economia.awesomeapi.com.br/json/last/
-
-# COLE A SUA CHAVE DA AWESOME API AQUI
 awesomeapi.key=SUA_CHAVE_DE_API_AQUI
+
 ⚠️ Importante: A aplicação não funcionará sem uma chave de API válida.
 
 3. Execute a Aplicação
