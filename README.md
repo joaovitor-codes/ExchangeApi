@@ -1,8 +1,3 @@
-Perfeito 👍 Aqui está o conteúdo reorganizado e formatado em **Markdown**, no estilo padrão para README de projetos no GitHub:
-
----
-
-````markdown
 # 💱 ExchangeApi
 
 **ExchangeApi** é uma API REST desenvolvida em **Spring Boot** para realizar a conversão de valores entre diferentes moedas em tempo real.  
