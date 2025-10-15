@@ -1,86 +1,159 @@
-# ExchangeApi
+Perfeito 👍 Aqui está o conteúdo reorganizado e formatado em **Markdown**, no estilo padrão para README de projetos no GitHub:
 
-Uma API REST desenvolvida em Spring Boot para realizar a conversão de valores entre diferentes moedas em tempo real. A aplicação consome os dados de cotação da AwesomeAPI para garantir que os cálculos de conversão utilizem as taxas mais recentes.
+---
 
-✨ Features
-Conversão de valores entre pares de moedas dinâmicos (ex: USD para BRL, EUR para USD, etc.).
+````markdown
+# 💱 ExchangeApi
 
-Utiliza cotações em tempo real de uma API externa.
+**ExchangeApi** é uma API REST desenvolvida em **Spring Boot** para realizar a conversão de valores entre diferentes moedas em tempo real.  
+A aplicação consome os dados de cotação da **AwesomeAPI**, garantindo que os cálculos de conversão utilizem as taxas mais recentes.
 
-Arquitetura limpa e desacoplada em camadas (Controller, Service, Mapper, Client).
+---
 
-Tratamento de respostas JSON com chaves dinâmicas, permitindo flexibilidade na consulta de moedas.
+## ✨ Funcionalidades
 
-🛠️ Tecnologias Utilizadas
-Java 17+
+- 🔄 Conversão de valores entre pares de moedas dinâmicos (ex: USD → BRL, EUR → USD, etc.)  
+- 🌍 Utiliza cotações em tempo real de uma API externa  
+- 🧩 Arquitetura limpa e desacoplada em camadas (**Controller**, **Service**, **Mapper**, **Client**)  
+- ⚙️ Tratamento de respostas JSON com chaves dinâmicas, garantindo flexibilidade na consulta de moedas  
 
-Spring Boot 3+
+---
 
-Maven como gerenciador de dependências.
+## 🛠️ Tecnologias Utilizadas
 
-Jackson Databind para manipulação avançada de JSON.
+- ☕ **Java 17+**
+- 🚀 **Spring Boot 3+**
+- 📦 **Maven** (gerenciador de dependências)
+- 🧠 **Jackson Databind** (manipulação avançada de JSON)
+- 🌐 **Java HTTP Client** (para comunicação com a API externa)
 
-Java 11+ HTTP Client para comunicação com a API externa.
+---
 
-🚀 Começando
+## 🚀 Começando
+
 Siga os passos abaixo para clonar, configurar e executar a aplicação localmente.
 
-Pré-requisitos
-Certifique-se de ter o JDK 17 ou superior instalado.
+### 📋 Pré-requisitos
 
-Certifique-se de ter o Maven instalado e configurado no seu sistema.
+Antes de começar, certifique-se de ter instalado:
 
-1. Clone o repositório
-Bash
+- **JDK 17** ou superior  
+- **Maven** configurado corretamente no seu sistema
 
+---
+
+### 🧩 1. Clonar o Repositório
+
+```bash
 git clone https://github.com/joaovitor-codes/ExchangeApi.git
-cd BRexchangeAPI
-2. Configure a API Externa
-A aplicação precisa de uma chave de acesso para se comunicar com a AwesomeAPI.
+cd ExchangeApi
+````
 
-Acesse o site da AwesomeAPI e obtenha sua chave de acesso (API Key).
-https://docs.awesomeapi.com.br/
+---
 
-No projeto, encontre o arquivo src/main/resources/application.properties.
+### 🔑 2. Configurar a API Externa
 
-Configure as seguintes propriedades com a sua chave e a URL base:
+A aplicação precisa de uma chave de acesso para se comunicar com a **AwesomeAPI**.
 
-Properties
+1. Acesse o site da AwesomeAPI e obtenha sua chave:
+   👉 [https://docs.awesomeapi.com.br/](https://docs.awesomeapi.com.br/)
+2. No projeto, abra o arquivo:
+   `src/main/resources/application.properties`
+3. Configure as seguintes propriedades:
+
+```properties
 awesomeapi.baseurl=https://economia.awesomeapi.com.br/json/last/
 awesomeapi.key=SUA_CHAVE_DE_API_AQUI
+```
 
-⚠️ Importante: A aplicação não funcionará sem uma chave de API válida.
+> ⚠️ **Importante:** A aplicação **não funcionará** sem uma chave de API válida.
 
-3. Execute a Aplicação
-A aplicação estará disponível em http://localhost:8080.
+---
 
-⚙️ Uso da API
-A API expõe um endpoint principal para realizar as conversões, utilizando variáveis de caminho (path variables).
+### ▶️ 3. Executar a Aplicação
 
-Endpoint de Conversão
-Converte um valor de uma moeda de origem para uma moeda de destino.
+Execute o comando abaixo para iniciar a aplicação:
 
-URL: /conversion/{originCurrency}/{destinationCurrency}/{amount}
+```bash
+mvn spring-boot:run
+```
 
-Método: GET
+A API estará disponível em:
+👉 [http://localhost:8080](http://localhost:8080)
 
-Parâmetros de Caminho:
+---
 
-originCurrency (obrigatório): Código da moeda de origem (ex: USD).
+## ⚙️ Uso da API
 
-destinationCurrency (obrigatório): Código da moeda de destino (ex: BRL).
+A API expõe um endpoint principal para realizar conversões monetárias dinâmicas, utilizando **path variables**.
 
-amount (obrigatório): O valor a ser convertido.
+### 🔁 Endpoint de Conversão
 
-Exemplo de Requisição
-Para converter 150 Dólares Americanos para Reais Brasileiros:
+**URL:**
 
-HTTP
+```
+/conversion/{originCurrency}/{destinationCurrency}/{amount}
+```
 
+**Método:** `GET`
+
+#### 🔧 Parâmetros de Caminho
+
+| Parâmetro             | Tipo   | Obrigatório | Descrição                            |
+| --------------------- | ------ | ----------- | ------------------------------------ |
+| `originCurrency`      | String | ✅           | Código da moeda de origem (ex: USD)  |
+| `destinationCurrency` | String | ✅           | Código da moeda de destino (ex: BRL) |
+| `amount`              | Double | ✅           | Valor a ser convertido               |
+
+---
+
+### 🧮 Exemplo de Requisição
+
+Converter **150 Dólares Americanos (USD)** para **Reais Brasileiros (BRL):**
+
+```http
 GET http://localhost:8080/conversion/USD/BRL/150
-Exemplo de Resposta de Sucesso (Status 200 OK)
-A API retornará o valor final da conversão como um número puro no corpo da resposta.
+```
 
+---
+
+### ✅ Exemplo de Resposta (200 OK)
+
+```json
 817.0800
-Exemplo de Resposta de Erro (Status 404 Not Found)
-Se o par de moedas não for encontrado na API externa ou ocorrer um erro durante o processo, a API retornará uma resposta vazia com o status 404.
+```
+
+---
+
+### ❌ Exemplo de Resposta de Erro (404 Not Found)
+
+```json
+{
+  "error": "Currency pair not found or external API unavailable."
+}
+```
+
+> Se o par de moedas não for encontrado ou ocorrer um erro durante a comunicação com a API externa, será retornado **status 404**.
+
+---
+
+## 🧠 Estrutura do Projeto
+
+```
+src/
+ ├── main/
+ │   ├── java/com/example/exchangeapi/
+ │   │   ├── controller/   → Endpoints REST
+ │   │   ├── service/      → Regras de negócio
+ │   │   ├── client/       → Comunicação com a API externa
+ │   │   ├── mapper/       → Conversão de dados e modelos
+ │   │   └── model/        → Classes de domínio
+ │   └── resources/
+ │       └── application.properties
+ └── test/                 → Testes automatizados
+```
+
+---
+
+Quer que eu adicione um **badge** (ex: Java version, Spring Boot version, licença, etc.) no topo do README para deixar mais profissional?
+```
