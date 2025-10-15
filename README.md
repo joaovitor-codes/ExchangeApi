@@ -1,126 +1,125 @@
 # 💱 ExchangeApi
 
-**ExchangeApi** é uma API REST desenvolvida em **Spring Boot** para realizar a conversão de valores entre diferentes moedas em tempo real.  
-A aplicação consome os dados de cotação da **AwesomeAPI**, garantindo que os cálculos de conversão utilizem as taxas mais recentes.
+**ExchangeApi** é uma API REST desenvolvida em **Spring Boot** para realizar conversões entre moedas em tempo real.  
+A aplicação consome cotações da **AwesomeAPI** e está organizada em camadas (Controller → Service → Client → Mapper), com tratamento centralizado de exceções.
 
 ---
 
 ## ✨ Funcionalidades
 
-- 🔄 Conversão de valores entre pares de moedas dinâmicos (ex: USD → BRL, EUR → USD, etc.)  
-- 🌍 Utiliza cotações em tempo real de uma API externa  
-- 🧩 Arquitetura limpa e desacoplada em camadas (**Controller**, **Service**, **Mapper**, **Client**)  
-- ⚙️ Tratamento de respostas JSON com chaves dinâmicas, garantindo flexibilidade na consulta de moedas  
+- 🔄 Conversão entre pares de moedas dinâmicos (ex: USD → BRL, EUR → USD, etc.)
+- 🌍 Uso de cotações em tempo real via AwesomeAPI
+- 🧩 Arquitetura desacoplada: Controller, Service, Client, Mapper
+- ⚠️ Tratamento global de exceções
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠 Tecnologias
 
-- ☕ **Java 17+**
-- 🚀 **Spring Boot 3+**
-- 📦 **Maven** (gerenciador de dependências)
-- 🧠 **Jackson Databind** (manipulação avançada de JSON)
-- 🌐 **Java HTTP Client** (para comunicação com a API externa)
-
----
-
-## 🚀 Começando
-
-Siga os passos abaixo para clonar, configurar e executar a aplicação localmente.
-
-### 📋 Pré-requisitos
-
-Antes de começar, certifique-se de ter instalado:
-
-- **JDK 17** ou superior  
-- **Maven** configurado corretamente no seu sistema
+- Java 17+
+- Spring Boot 3+
+- Maven
+- Jackson (manipulação JSON)
+- Java HTTP Client (consumo da API externa)
 
 ---
 
-### 🧩 1. Clonar o Repositório
+## Estrutura do Projeto (correspondente ao repositório)
 
+```
+
+src/
+├── main/
+│   ├── java/
+│   │   └── com.dev.brexchangeapi
+│   │       ├── config
+│   │       │   ├── impl
+│   │       │   │   └── AwesomeApiImpl.java
+│   │       │   ├── AwesomeApi.java
+│   │       │   └── GlobalHandler.java
+│   │       ├── controller
+│   │       │   └── ConversionController.java
+│   │       ├── dto
+│   │       │   └── QuoteDetailsDto.java
+│   │       ├── exceptions
+│   │       │   ├── ExceptionResponse.java
+│   │       │   ├── MethodArgumentNotValidException.java
+│   │       │   └── ResourceNotFoundException.java
+│   │       ├── mapper
+│   │       │   ├── QuoteMapper.java
+│   │       │   └── impl
+│   │       │       └── QuoteMapperImpl.java
+│   │       ├── service
+│   │       │   ├── impl
+│   │       │   │   ├── CurrencyConversionService.java
+│   │       │   │   └── QuoteService.java
+│   │       └── BRexchangeApiApplication.java
+│   └── resources/
+│       ├── db.migration/
+│       ├── static/
+│       └── application.properties
+└── test/
+
+## 🚀 Rodando a aplicação
+
+### Pré-requisitos
+- JDK 17+
+- Maven
+
+### Passos
+1. Clone o repositório:
 ```bash
 git clone https://github.com/joaovitor-codes/ExchangeApi.git
 cd ExchangeApi
 ````
 
----
-
-### 🔑 2. Configurar a API Externa
-
-A aplicação precisa de uma chave de acesso para se comunicar com a **AwesomeAPI**.
-
-1. Acesse o site da AwesomeAPI e obtenha sua chave:
-   👉 [https://docs.awesomeapi.com.br/](https://docs.awesomeapi.com.br/)
-2. No projeto, abra o arquivo:
-   `src/main/resources/application.properties`
-3. Configure as seguintes propriedades:
+2. Configure a AwesomeAPI em `src/main/resources/application.properties`:
 
 ```properties
 awesomeapi.baseurl=https://economia.awesomeapi.com.br/json/last/
 awesomeapi.key=SUA_CHAVE_DE_API_AQUI
+server.port=8080
 ```
 
-> ⚠️ **Importante:** A aplicação **não funcionará** sem uma chave de API válida.
-
----
-
-### ▶️ 3. Executar a Aplicação
-
-Execute o comando abaixo para iniciar a aplicação:
+3. Execute:
 
 ```bash
 mvn spring-boot:run
 ```
 
-A API estará disponível em:
-👉 [http://localhost:8080](http://localhost:8080)
+A aplicação ficará disponível em `http://localhost:8080`.
 
 ---
 
-## ⚙️ Uso da API
+## 🔁 Endpoint principal
 
-A API expõe um endpoint principal para realizar conversões monetárias dinâmicas, utilizando **path variables**.
+Converte um valor entre duas moedas.
 
-### 🔁 Endpoint de Conversão
-
-**URL:**
+**GET**
 
 ```
 /conversion/{originCurrency}/{destinationCurrency}/{amount}
 ```
 
-**Método:** `GET`
+* `originCurrency` — código da moeda de origem (ex: `USD`)
+* `destinationCurrency` — código da moeda de destino (ex: `BRL`)
+* `amount` — valor numérico a converter
 
-#### 🔧 Parâmetros de Caminho
+**Exemplo**
 
-| Parâmetro             | Tipo   | Obrigatório | Descrição                            |
-| --------------------- | ------ | ----------- | ------------------------------------ |
-| `originCurrency`      | String | ✅           | Código da moeda de origem (ex: USD)  |
-| `destinationCurrency` | String | ✅           | Código da moeda de destino (ex: BRL) |
-| `amount`              | Bigdecimal | ✅       | Valor a ser convertido               |
-
----
-
-### 🧮 Exemplo de Requisição
-
-Converter **150 Dólares Americanos (USD)** para **Reais Brasileiros (BRL):**
-
-```http
+```
 GET http://localhost:8080/conversion/USD/BRL/150
 ```
 
----
+**Resposta (200 OK)**
+O corpo retorna o número (valor convertido), por exemplo:
 
-### ✅ Exemplo de Resposta (200 OK)
-
-```json
+```
 817.0800
 ```
 
----
-
-### ❌ Exemplo de Resposta de Erro (404 Not Found)
+**Resposta de erro (404 Not Found)**
+Retornado quando o par de moedas não é encontrado na AwesomeAPI ou se houver falha de comunicação. Exemplo de corpo:
 
 ```json
 {
@@ -128,27 +127,15 @@ GET http://localhost:8080/conversion/USD/BRL/150
 }
 ```
 
-> Se o par de moedas não for encontrado ou ocorrer um erro durante a comunicação com a API externa, será retornado **status 404**.
-
 ---
 
-## 🧠 Estrutura do Projeto
+## 🧭 Mapeamento das responsabilidades (onde fica o quê)
 
-```
-src/
- ├── main/
- │   ├── java/com/example/exchangeapi/
- │   │   ├── controller/   → Endpoints REST
- │   │   ├── service/      → Regras de negócio
- │   │   ├── client/       → Comunicação com a API externa
- │   │   ├── mapper/       → Conversão de dados e modelos
- │   │   └── model/        → Classes de domínio
- │   └── resources/
- │       └── application.properties
- └── test/                 → Testes automatizados
-```
-
----
-
-Quer que eu adicione um **badge** (ex: Java version, Spring Boot version, licença, etc.) no topo do README para deixar mais profissional?
-```
+* `controller/ConversionController.java` — endpoints REST
+* `service/impl/CurrencyConversionService.java` — lógica de conversão
+* `service/impl/QuoteService.java` — orquestra chamada e parse de cotações
+* `config/AwesomeApi.java` & `config/impl/AwesomeApiImpl.java` — cliente que consome a AwesomeAPI
+* `mapper/QuoteMapper` & `mapper/impl/QuoteMapperImpl` — converte JSON/dtos para modelos internos
+* `dto/QuoteDetailsDto` — estrutura dos dados extraídos da API externa
+* `exceptions/*` — classes e handler global para tratamento de erros
+* `BRexchangeApiApplication.java` — classe principal do Spring Boot
