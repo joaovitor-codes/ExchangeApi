@@ -98,7 +98,7 @@ A API expõe um endpoint principal para realizar conversões monetárias dinâmi
 | --------------------- | ------ | ----------- | ------------------------------------ |
 | `originCurrency`      | String | ✅           | Código da moeda de origem (ex: USD)  |
 | `destinationCurrency` | String | ✅           | Código da moeda de destino (ex: BRL) |
-| `amount`              | Double | ✅           | Valor a ser convertido               |
+| `amount`              | Bigdecimal | ✅       | Valor a ser convertido               |
 
 ---
 
