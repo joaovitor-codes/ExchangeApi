@@ -129,7 +129,9 @@ Retornado quando o par de moedas não é encontrado na AwesomeAPI ou se houver f
 
 ```json
 {
-  "error": "Currency pair not found or external API unavailable."
+  "message": "Moeda não encontrada: XXX-XXX",
+  "error": "NOT_FOUND",
+  "code": 404
 }
 ```
 
