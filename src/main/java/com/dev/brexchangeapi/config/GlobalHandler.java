@@ -57,4 +57,14 @@ public class GlobalHandler {
         );
         return new ResponseEntity(exception, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ErrorInvalidData.class)
+    public ResponseEntity<ErrorInvalidData> handle(ErrorInvalidData e) {
+        var exception = new ExceptionResponse(
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST.name(),
+                HttpStatus.BAD_REQUEST.value()
+        );
+        return new ResponseEntity(exception, HttpStatus.BAD_REQUEST);
+    }
 }

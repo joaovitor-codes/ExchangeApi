@@ -2,6 +2,7 @@ package com.dev.brexchangeapi.client.impl;
 
 import com.dev.brexchangeapi.client.AwesomeApi;
 import com.dev.brexchangeapi.exceptions.ErrorCoinNotFound;
+import com.dev.brexchangeapi.exceptions.ErrorInvalidData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class AwesomeApiImpl implements AwesomeApi {
 
             if (response.statusCode() == 404) {
                 throw new ErrorCoinNotFound("Moeda não encontrada: " + coinsCode);
+            }
+
+            if (response.statusCode() == 400) {
+                throw new ErrorInvalidData("Dados inválidos fornecidos para a moeda: " + coinsCode);
             }
 
             if(response.statusCode() == 200){
