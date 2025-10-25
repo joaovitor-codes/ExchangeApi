@@ -31,28 +31,34 @@ A aplicação consome cotações da **AwesomeAPI** e está organizada em camadas
 src/
 ├── main/
 │   ├── java/
-│   │   └── com.dev.brexchangeapi
-│   │       ├── config
-│   │       │   ├── impl
+│   │   └── com.dev.brexchangeapi/
+│   │       ├── client/
+│   │       │   ├── impl/
 │   │       │   │   └── AwesomeApiImpl.java
-│   │       │   ├── AwesomeApi.java
+│   │       │   └── AwesomeApi.java
+│   │       ├── config/
 │   │       │   └── GlobalHandler.java
-│   │       ├── controller
+│   │       ├── controller/
 │   │       │   └── ConversionController.java
-│   │       ├── dto
+│   │       ├── dto/
+│   │       │   ├── ApiResponseDto.java
 │   │       │   └── QuoteDetailsDto.java
-│   │       ├── exceptions
-│   │       │   ├── ExceptionResponse.java
-│   │       │   ├── MethodArgumentNotValidException.java
-│   │       │   └── ResourceNotFoundException.java
-│   │       ├── mapper
-│   │       │   ├── QuoteMapper.java
-│   │       │   └── impl
-│   │       │       └── QuoteMapperImpl.java
-│   │       ├── service
-│   │       │   ├── impl
-│   │       │   │   ├── CurrencyConversionService.java
-│   │       │   │   └── QuoteService.java
+│   │       ├── exceptions/
+│   │       │   ├── ErrorConvertingCurrency.java
+│   │       │   ├── ErrorExchangeNotFound.java
+│   │       │   ├── ErrorProcessingJson.java
+│   │       │   ├── ErrorProcessingQuote.java
+│   │       │   └── ExceptionResponse.java
+│   │       ├── mapper/
+│   │       │   ├── impl/
+│   │       │   │   └── QuoteMapperImpl.java
+│   │       │   └── QuoteMapper.java
+│   │       ├── service/
+│   │       │   ├── impl/
+│   │       │   │   ├── CurrencyConversionServiceImpl.java
+│   │       │   │   └── QuoteServiceImpl.java
+│   │       │   ├── CurrencyConversionService.java
+│   │       │   └── QuoteService.java
 │   │       └── BRexchangeApiApplication.java
 │   └── resources/
 │       ├── db.migration/
@@ -98,7 +104,7 @@ Converte um valor entre duas moedas.
 **GET**
 
 ```
-/conversion/{originCurrency}/{destinationCurrency}/{amount}
+/conversion
 ```
 
 * `originCurrency` — código da moeda de origem (ex: `USD`)
@@ -108,7 +114,7 @@ Converte um valor entre duas moedas.
 **Exemplo**
 
 ```
-GET http://localhost:8080/conversion/USD/BRL/150
+GET http://localhost:8080/conversion?from=USD&to=BRL&amount=100
 ```
 
 **Resposta (200 OK)**
