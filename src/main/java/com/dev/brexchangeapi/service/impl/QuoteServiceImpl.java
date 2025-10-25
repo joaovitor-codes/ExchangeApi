@@ -1,6 +1,6 @@
 package com.dev.brexchangeapi.service.impl;
 
-import com.dev.brexchangeapi.config.AwesomeApi;
+import com.dev.brexchangeapi.client.AwesomeApi;
 import com.dev.brexchangeapi.dto.QuoteDetailsDto;
 import com.dev.brexchangeapi.mapper.QuoteMapper;
 import com.dev.brexchangeapi.service.QuoteService;
@@ -19,12 +19,7 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     public BigDecimal seekQuote(String originCurrency, String destinationCurrency) {
-        String coinsCode = originCurrency + "-" + destinationCurrency;
-        String quote = awesomeApi.seekQuote(coinsCode);
-
-        if (quote == null) {
-            return null;
-        }
+        String quote = awesomeApi.seekQuote(originCurrency, destinationCurrency);
 
         try {
             QuoteDetailsDto quoteDetailsDto = quoteMapper.processJson(quote);

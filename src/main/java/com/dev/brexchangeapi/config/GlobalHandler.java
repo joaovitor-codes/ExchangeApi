@@ -1,8 +1,6 @@
 package com.dev.brexchangeapi.config;
 
-import com.dev.brexchangeapi.exceptions.ExceptionResponse;
-import com.dev.brexchangeapi.exceptions.MethodArgumentNotValidException;
-import com.dev.brexchangeapi.exceptions.ResourceNotFoundException;
+import com.dev.brexchangeapi.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,24 +8,43 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalHandler {
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> resourceNotFound(ResourceNotFoundException e) {
+    @ExceptionHandler(ErrorConvertingCurrency.class)
+    public ResponseEntity<ErrorConvertingCurrency> handle(ErrorConvertingCurrency e) {
         var exception = new ExceptionResponse(
                 e.getMessage(),
                 HttpStatus.BAD_REQUEST.name(),
                 HttpStatus.BAD_REQUEST.value()
         );
-        return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionResponse> methodArgumentNotValid(MethodArgumentNotValidException e) {
+    @ExceptionHandler(ErrorExchangeNotFound.class)
+    public ResponseEntity<ErrorExchangeNotFound> handle(ErrorExchangeNotFound e) {
+        var exception = new ExceptionResponse(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.name(),
+                HttpStatus.NOT_FOUND.value()
+        );
+        return new ResponseEntity(exception, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ErrorProcessingJson.class)
+    public ResponseEntity<ErrorProcessingJson> handle(ErrorProcessingJson e) {
         var exception = new ExceptionResponse(
                 e.getMessage(),
                 HttpStatus.BAD_REQUEST.name(),
                 HttpStatus.BAD_REQUEST.value()
         );
-        return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ErrorProcessingQuote.class)
+    public ResponseEntity<ErrorProcessingQuote> handle(ErrorProcessingQuote e) {
+        var exception = new ExceptionResponse(
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST.name(),
+                HttpStatus.BAD_REQUEST.value()
+        );
+        return new ResponseEntity(exception, HttpStatus.BAD_REQUEST);
     }
 }
