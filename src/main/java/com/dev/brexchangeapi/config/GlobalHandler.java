@@ -47,4 +47,14 @@ public class GlobalHandler {
         );
         return new ResponseEntity(exception, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ErrorCoinNotFound.class)
+    public ResponseEntity<ErrorCoinNotFound> handle(ErrorCoinNotFound e) {
+        var exception = new ExceptionResponse(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.name(),
+                HttpStatus.NOT_FOUND.value()
+        );
+        return new ResponseEntity(exception, HttpStatus.NOT_FOUND);
+    }
 }

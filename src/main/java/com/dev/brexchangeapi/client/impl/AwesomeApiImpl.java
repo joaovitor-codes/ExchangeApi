@@ -1,6 +1,7 @@
 package com.dev.brexchangeapi.client.impl;
 
 import com.dev.brexchangeapi.client.AwesomeApi;
+import com.dev.brexchangeapi.exceptions.ErrorCoinNotFound;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +33,16 @@ public class AwesomeApiImpl implements AwesomeApi {
         try{
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+            if (response.statusCode() == 404) {
+                throw new ErrorCoinNotFound("Moeda não encontrada: " + coinsCode);
+            }
+
             if(response.statusCode() == 200){
                 return response.body();
             }else{
                 System.err.println("Falha na conexão. Código de status: " + response.statusCode());
                 System.err.println("Resposta da API: " + response.body());
             }
-
         }catch(IOException | InterruptedException e){
             System.err.println("Ocorreu um erro ao fazer a requisição: " + e.getMessage());
             e.printStackTrace();
