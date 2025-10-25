@@ -1,6 +1,6 @@
-package com.dev.brexchangeapi.config.impl;
+package com.dev.brexchangeapi.client.impl;
 
-import com.dev.brexchangeapi.config.AwesomeApi;
+import com.dev.brexchangeapi.client.AwesomeApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,8 @@ public class AwesomeApiImpl implements AwesomeApi {
     @Value("${awesomeapi.baseurl}")
     private String BASE_URL;
 
-    public String seekQuote(String coinsCode) {
+    public String seekQuote(String originCurrency, String destinationCurrency) {
+        String coinsCode = originCurrency + "-" + destinationCurrency;
         String url = BASE_URL + coinsCode;
 
         HttpClient client = HttpClient.newHttpClient();
@@ -37,11 +38,11 @@ public class AwesomeApiImpl implements AwesomeApi {
                 System.err.println("Falha na conexão. Código de status: " + response.statusCode());
                 System.err.println("Resposta da API: " + response.body());
             }
+
         }catch(IOException | InterruptedException e){
             System.err.println("Ocorreu um erro ao fazer a requisição: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
     }
-
 }
